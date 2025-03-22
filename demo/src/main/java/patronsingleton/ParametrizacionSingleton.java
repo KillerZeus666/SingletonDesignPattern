@@ -1,6 +1,7 @@
 package patronsingleton;
 
 import java.util.Properties;
+
 import utilidades.UtilidadesAcceso;
 
 public class ParametrizacionSingleton {
