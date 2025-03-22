@@ -10,20 +10,46 @@
     public class PatronSingletonMain {
     public static void main(String[] args) {
         //Configuración de Propiedades para el Modulo No->1
-        ParametrizacionSingleton singletonA = ParametrizacionSingleton.getInstance();
-        //Configuración de Propiedades para el Modulo No->1
-        ParametrizacionSingleton singletonB = ParametrizacionSingleton.getInstance();
-        System.out.println(singletonA);
-        System.out.println(singletonB);
-        System.out.println("Igual referencia ==> " + (singletonA == singletonB));
-        singletonA.setNombreAplicacion("Patron Creacional Singleton");
-        singletonB.setNumeroVersion("2.0x");
-        System.out.println("SingletonA ==> " + singletonA);
-        System.out.println("SingletonB ==> " + singletonB);
-        singletonA = null;
-        singletonB = null;
-        singletonA = ParametrizacionSingleton.getInstance();
-        System.out.println("singletonA ==> " + singletonA);
+         // Creamos tres hilos que acceden al Singleton y lo modifican
+         Thread hilo1 = new Thread(() -> {
+            ParametrizacionSingleton singleton = ParametrizacionSingleton.getInstance();
+            singleton.setNombreAplicacion("Aplicación Modificada por Hilo 1");
+            singleton.setNumeroVersion("1.1");
+            System.out.println("Hilo 1: " + singleton);
+        });
+
+        Thread hilo2 = new Thread(() -> {
+            ParametrizacionSingleton singleton = ParametrizacionSingleton.getInstance();
+            singleton.setNombreAplicacion("Aplicación Modificada por Hilo 2");
+            singleton.setNumeroVersion("2.2");
+            System.out.println("Hilo 2: " + singleton);
+        });
+
+        Thread hilo3 = new Thread(() -> {
+            ParametrizacionSingleton singleton = ParametrizacionSingleton.getInstance();
+            singleton.setNombreAplicacion("Aplicación Modificada por Hilo 3");
+            singleton.setNumeroVersion("3.3");
+            System.out.println("Hilo 3: " + singleton);
+        });
+
+        // Iniciamos los hilos
+        hilo1.start();
+        hilo2.start();
+        hilo3.start();
+
+        // Esperamos a que todos los hilos terminen
+        try {
+            hilo1.join();
+            hilo2.join();
+            hilo3.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Imprimimos la configuración final después de que todos los hilos terminaron
+        ParametrizacionSingleton singletonFinal = ParametrizacionSingleton.getInstance();
+        System.out.println("Estado final del Singleton ==> " + singletonFinal);
     }
+}
     
-    }
+    

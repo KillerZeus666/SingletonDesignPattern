@@ -31,12 +31,13 @@ public class ParametrizacionSingleton {
         }
     }
 
-    public static ParametrizacionSingleton getInstance() {
+    public static synchronized ParametrizacionSingleton getInstance() {
         if (singleton == null) {
-            createInstance();
+            singleton = new ParametrizacionSingleton();
         }
         return singleton;
     }
+    
 
     public String getNombreAplicacion() {
         return nombreAplicacion;
